@@ -1,11 +1,15 @@
 import 'package:camera_app/viewmodels/scan_view_model.dart';
 import 'package:camera_app/widgets/name_input_dialog.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:provider/provider.dart';
 
 class ScanPage extends StatefulWidget {
-  const ScanPage({super.key});
+  const ScanPage({super.key, this.imagePicker});
+
+  /// Optional image picker override for tests.
+  final ImagePicker? imagePicker;
 
   @override
   State<ScanPage> createState() => _ScanPageState();
@@ -13,6 +17,7 @@ class ScanPage extends StatefulWidget {
 
 class _ScanPageState extends State<ScanPage> {
   bool _dialogShowing = false;
+  bool _analyzingImage = false;
 
   void _maybeShowNameDialog(ScanViewModel vm) {
     final pending = vm.pendingScan;
@@ -38,6 +43,38 @@ class _ScanPageState extends State<ScanPage> {
     });
   }
 
+  Future<void> _pickImageFromLibrary() async {
+    if (_analyzingImage) return;
+    setState(() => _analyzingImage = true);
+    try {
+      final picker = widget.imagePicker ?? ImagePicker();
+      final file = await picker.pickImage(source: ImageSource.gallery);
+      if (file == null || !mounted) return;
+      final found = await context.read<ScanViewModel>().analyzeImage(file.path);
+      if (!found && mounted) {
+        await showDialog<void>(
+          context: context,
+          builder: (context) => AlertDialog(
+            key: const Key('no_barcode_dialog'),
+            title: const Text('No code found'),
+            content: const Text('On this image no QR/Barcodes'),
+            actions: [
+              TextButton(
+                key: const Key('no_barcode_close_button'),
+                onPressed: () => Navigator.of(context).pop(),
+                child: const Text('Close'),
+              ),
+            ],
+          ),
+        );
+      }
+      // When a code is found, analyzeImage sets pendingScan and the
+      // name dialog is shown by _maybeShowNameDialog on the next build.
+    } finally {
+      if (mounted) setState(() => _analyzingImage = false);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final vm = context.watch<ScanViewModel>();
@@ -47,6 +84,17 @@ class _ScanPageState extends State<ScanPage> {
       appBar: AppBar(
         title: const Text('Scan QR / Barcode'),
         actions: [
+          IconButton(
+            key: const Key('library_button'),
+            icon: _analyzingImage
+                ? const SizedBox(
+                    width: 18,
+                    height: 18,
+                    child: CircularProgressIndicator(strokeWidth: 2),
+                  )
+                : const Icon(Icons.photo_library),
+            onPressed: _analyzingImage ? null : _pickImageFromLibrary,
+          ),
           IconButton(
             key: const Key('torch_button'),
             icon: const Icon(Icons.flash_on),

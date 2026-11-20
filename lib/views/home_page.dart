@@ -61,34 +61,38 @@ class HomePage extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Row(
-                        children: [
-                          const Text(
-                            'Favorite',
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                          const Spacer(),
-                          Flexible(
-                            child: Text(
-                              favorite.name,
-                              key: const Key('favorite_name'),
-                              style: const TextStyle(
-                                fontWeight: FontWeight.bold,
-                              ),
-                              overflow: TextOverflow.ellipsis,
+                      Transform.translate(
+                        offset: const Offset(0, -2),
+                        child: Row(
+                          children: [
+                            const Text(
+                              'Favorite',
+                              style: TextStyle(fontWeight: FontWeight.bold),
                             ),
-                          ),
-                        ],
+                            const Spacer(),
+                            Flexible(
+                              child: Text(
+                                favorite.name,
+                                key: const Key('favorite_name'),
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                       Expanded(
-                        child: Center(
-                          child: BarcodeWidget(
-                            key: const Key('favorite_barcode'),
-                            barcode: barcodeFor(favorite),
-                            data: favorite.data,
-                            drawText: false,
-                            height: 64,
-                            errorBuilder: (context, error) => const SizedBox(),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 30),
+                          child: Center(
+                            child: BarcodeWidget(
+                              key: const Key('favorite_barcode'),
+                              barcode: barcodeFor(favorite),
+                              data: favorite.data,
+                              drawText: false,
+                              height: 64,
+                              errorBuilder: (context, error) =>
+                                  const SizedBox(),
+                            ),
                           ),
                         ),
                       ),

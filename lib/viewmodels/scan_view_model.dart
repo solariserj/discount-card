@@ -55,6 +55,25 @@ class ScanViewModel extends ChangeNotifier {
     }
   }
 
+  /// Analyzes an image file for a QR code or barcode. When one is found it
+  /// becomes [pendingScan] (same flow as a camera detection); returns whether
+  /// a code was found.
+  Future<bool> analyzeImage(String path) async {
+    if (pendingScan != null) return false;
+    final capture = await controller.analyzeImage(
+      path,
+      formats: ScanService.supportedFormats,
+    );
+    for (final barcode in capture?.barcodes ?? const <Barcode>[]) {
+      final value = barcode.rawValue ?? barcode.displayValue;
+      if (value == null || value.isEmpty) continue;
+      pendingScan = PendingScan(value: value, format: barcode.format.name);
+      notifyListeners();
+      return true;
+    }
+    return false;
+  }
+
   /// Saves [pendingScan] under [name] (empty names fall back to the format
   /// name) and clears the pending state.
   Future<void> confirmScan(String name) async {

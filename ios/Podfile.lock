@@ -1,5 +1,7 @@
 PODS:
   - Flutter (1.0.0)
+  - image_picker_ios (0.0.1):
+    - Flutter
   - mobile_scanner (7.0.0):
     - Flutter
     - FlutterMacOS
@@ -9,12 +11,15 @@ PODS:
 
 DEPENDENCIES:
   - Flutter (from `Flutter`)
+  - image_picker_ios (from `.symlinks/plugins/image_picker_ios/ios`)
   - mobile_scanner (from `.symlinks/plugins/mobile_scanner/darwin`)
   - shared_preferences_foundation (from `.symlinks/plugins/shared_preferences_foundation/darwin`)
 
 EXTERNAL SOURCES:
   Flutter:
     :path: Flutter
+  image_picker_ios:
+    :path: ".symlinks/plugins/image_picker_ios/ios"
   mobile_scanner:
     :path: ".symlinks/plugins/mobile_scanner/darwin"
   shared_preferences_foundation:
@@ -22,6 +27,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Flutter: 71a624a5bc0c04062bf19101d501e466baf2fb47
+  image_picker_ios: 3b5c3761ec7755e83b659fd65c7f03c9c7f25d6c
   mobile_scanner: 77265f3dc8d580810e91849d4a0811a90467ed5e
   shared_preferences_foundation: 9a36184bb1299692bf7b972bd6c60ab373084504
 
