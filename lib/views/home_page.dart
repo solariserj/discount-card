@@ -47,10 +47,14 @@ class HomePage extends StatelessWidget {
             builder: (context, vm, _) {
               if (vm.objects.isEmpty) return const SizedBox.shrink();
               final favorite = vm.objects.first;
+              final kind = favorite.format.isNotEmpty
+                  ? favorite.format
+                  : favorite.name;
+              final isQr = kind.toLowerCase().contains('qr');
               return Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
                 child: Container(
-                  height: 120,
+                  height: isQr ? 170 : 120,
                   padding: const EdgeInsets.all(12),
                   decoration: BoxDecoration(
                     color: Theme.of(context)
@@ -89,7 +93,7 @@ class HomePage extends StatelessWidget {
                               barcode: barcodeFor(favorite),
                               data: favorite.data,
                               drawText: false,
-                              height: 64,
+                              height: isQr ? 120 : 64,
                               errorBuilder: (context, error) =>
                                   const SizedBox(),
                             ),
