@@ -10,7 +10,13 @@ enum CardColorScheme {
   red,
   pink,
   teal,
-  amber;
+  amber,
+  indigo,
+  cyan,
+  lime,
+  brown,
+  crimson,
+  azure;
 
   String get id => name;
 
@@ -23,6 +29,12 @@ enum CardColorScheme {
     pink => const Color(0xFFF8BBD0),
     teal => const Color(0xFFB2DFDB),
     amber => const Color(0xFFFFF9C4),
+    indigo => const Color(0xFFC5CAE9),
+    cyan => const Color(0xFFB2EBF2),
+    lime => const Color(0xFFDCEDC8),
+    brown => const Color(0xFFD7CCC8),
+    crimson => const Color(0xFFE57373),
+    azure => const Color(0xFF64B5F6),
   };
 
   static CardColorScheme fromId(String? id) {
