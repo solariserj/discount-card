@@ -17,10 +17,7 @@ class SharedPreferencesStorageService implements StorageService {
     if (raw == null) return <StorageObject>[];
     final decoded = jsonDecode(raw) as List<dynamic>;
     return decoded
-        .map(
-          (e) =>
-              StorageObject.fromJson(Map<String, dynamic>.from(e as Map)),
-        )
+        .map((e) => StorageObject.fromJson(Map<String, dynamic>.from(e as Map)))
         .toList();
   }
 

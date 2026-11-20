@@ -49,10 +49,7 @@ class ScanViewModel extends ChangeNotifier {
       final value = barcode.rawValue ?? barcode.displayValue;
       if (value == null || value.isEmpty || value == _lastValue) continue;
       _lastValue = value;
-      pendingScan = PendingScan(
-        value: value,
-        format: barcode.format.name,
-      );
+      pendingScan = PendingScan(value: value, format: barcode.format.name);
       notifyListeners();
       return;
     }

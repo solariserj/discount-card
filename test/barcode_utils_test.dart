@@ -23,11 +23,13 @@ void main() {
       );
 
       expect(ean.runtimeType, isNot(code128.runtimeType));
-      expect(ean.runtimeType, isNot(
-        barcodeFor(
-          const StorageObject(id: '3', name: 'x', data: 'y'),
-        ).runtimeType,
-      ));
+      expect(
+        ean.runtimeType,
+        isNot(
+          barcodeFor(const StorageObject(id: '3', name: 'x', data: 'y'))
+              .runtimeType,
+        ),
+      );
     });
 
     test('prefers format field over name', () {

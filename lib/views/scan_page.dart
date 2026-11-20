@@ -81,10 +81,7 @@ class _ScanPageState extends State<ScanPage> {
                     mainAxisSize: .min,
                     children: [
                       for (final scan in vm.scans.take(5))
-                        Text(
-                          scan,
-                          style: const TextStyle(color: Colors.white),
-                        ),
+                        Text(scan, style: const TextStyle(color: Colors.white)),
                     ],
                   ),
           ),

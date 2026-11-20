@@ -33,8 +33,7 @@ class _NameInputDialogState extends State<NameInputDialog> {
   void initState() {
     super.initState();
     _controller = TextEditingController(text: widget.initialName);
-    _selectedScheme =
-        widget.initialScheme ?? CardColorScheme.purple.id;
+    _selectedScheme = widget.initialScheme ?? CardColorScheme.purple.id;
   }
 
   @override

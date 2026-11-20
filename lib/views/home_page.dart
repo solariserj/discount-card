@@ -48,34 +48,46 @@ class HomePage extends StatelessWidget {
               if (vm.objects.isEmpty) return const SizedBox.shrink();
               final favorite = vm.objects.first;
               return Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 8,
-                ),
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
                 child: Container(
-                  height: 80,
+                  height: 120,
+                  padding: const EdgeInsets.all(12),
                   decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.surfaceContainerHighest,
+                    color: Theme.of(context)
+                        .colorScheme
+                        .surfaceContainerHighest,
                     borderRadius: BorderRadius.circular(12),
                   ),
-                  child: Row(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Padding(
-                        padding: EdgeInsets.only(left: 16),
-                        child: Text(
-                          'Favorite',
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
+                      Row(
+                        children: [
+                          const Text(
+                            'Favorite',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          const Spacer(),
+                          Flexible(
+                            child: Text(
+                              favorite.name,
+                              key: const Key('favorite_name'),
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                        ],
                       ),
                       Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.all(8),
+                        child: Center(
                           child: BarcodeWidget(
                             key: const Key('favorite_barcode'),
                             barcode: barcodeFor(favorite),
                             data: favorite.data,
                             drawText: false,
-                            height: 56,
+                            height: 64,
                             errorBuilder: (context, error) => const SizedBox(),
                           ),
                         ),

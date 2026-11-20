@@ -76,8 +76,10 @@ void main() {
       final renamed = vm.objects.firstWhere((o) => o.id == '2');
       expect(renamed.name, 'renamed');
       expect(renamed.data, 'b');
-      expect((await storage.getAll()).firstWhere((o) => o.id == '2').name,
-          'renamed');
+      expect(
+        (await storage.getAll()).firstWhere((o) => o.id == '2').name,
+        'renamed',
+      );
     });
 
     test('rename can change color scheme', () async {
@@ -85,8 +87,10 @@ void main() {
 
       final updated = vm.objects.firstWhere((o) => o.id == '2');
       expect(updated.color, 'teal');
-      expect((await storage.getAll()).firstWhere((o) => o.id == '2').color,
-          'teal');
+      expect(
+        (await storage.getAll()).firstWhere((o) => o.id == '2').color,
+        'teal',
+      );
     });
 
     test('rename ignores empty names and unknown ids', () async {

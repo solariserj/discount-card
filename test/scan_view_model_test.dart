@@ -58,26 +58,27 @@ void main() {
     });
 
     test('confirmScan falls back to format name when name is empty', () async {
-      await vm.handleDetection(
-        captureWith('123', format: BarcodeFormat.ean13),
-      );
+      await vm.handleDetection(captureWith('123', format: BarcodeFormat.ean13));
       await vm.confirmScan('   ');
 
       expect(vm.savedObjects.single.name, 'ean13');
       expect(vm.savedObjects.single.format, 'ean13');
     });
 
-    test('cancelPendingScan discards without saving and allows rescan', () async {
-      await vm.handleDetection(captureWith('ABC123'));
-      vm.cancelPendingScan();
+    test(
+      'cancelPendingScan discards without saving and allows rescan',
+      () async {
+        await vm.handleDetection(captureWith('ABC123'));
+        vm.cancelPendingScan();
 
-      expect(vm.pendingScan, isNull);
-      expect(await storage.getAll(), isEmpty);
+        expect(vm.pendingScan, isNull);
+        expect(await storage.getAll(), isEmpty);
 
-      // Same code can be detected again after cancel.
-      await vm.handleDetection(captureWith('ABC123'));
-      expect(vm.pendingScan?.value, 'ABC123');
-    });
+        // Same code can be detected again after cancel.
+        await vm.handleDetection(captureWith('ABC123'));
+        expect(vm.pendingScan?.value, 'ABC123');
+      },
+    );
 
     test('ignores detections while a scan is pending', () async {
       await vm.handleDetection(captureWith('first'));
@@ -88,9 +89,7 @@ void main() {
 
     test('ignores empty detections and repeats while pending', () async {
       await vm.handleDetection(
-        BarcodeCapture(
-          barcodes: [const Barcode(format: BarcodeFormat.qrCode)],
-        ),
+        BarcodeCapture(barcodes: [const Barcode(format: BarcodeFormat.qrCode)]),
       );
       expect(vm.pendingScan, isNull);
 
@@ -159,6 +158,5 @@ void main() {
 
 class _FailingStorageService extends InMemoryStorageService {
   @override
-  Future<void> save(StorageObject object) =>
-      throw StateError('disk full');
+  Future<void> save(StorageObject object) => throw StateError('disk full');
 }

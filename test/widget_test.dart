@@ -23,6 +23,10 @@ Widget buildApp({
   );
 }
 
+/// Finds [text] inside a saved-scan list cell (excludes the favorite pad).
+Finder cellText(String text) =>
+    find.descendant(of: find.byType(ListTile), matching: find.text(text));
+
 void main() {
   testWidgets('home page shows scan button and title', (tester) async {
     await tester.pumpWidget(buildApp());
@@ -54,10 +58,17 @@ void main() {
     );
     await tester.pumpAndSettle();
 
-    expect(find.text('qrCode'), findsOneWidget);
-    expect(find.text('https://a.dev'), findsOneWidget);
-    expect(find.text('ean13'), findsOneWidget);
-    expect(find.text('5901234123457'), findsOneWidget);
+    expect(cellText('qrCode'), findsOneWidget);
+    expect(cellText('https://a.dev'), findsOneWidget);
+    expect(cellText('ean13'), findsOneWidget);
+    expect(cellText('5901234123457'), findsOneWidget);
+
+    // Favorite pad shows the first (most recent) record.
+    expect(
+      tester.widget<Text>(find.byKey(const Key('favorite_name'))).data,
+      'ean13',
+    );
+    expect(find.byKey(const Key('favorite_barcode')), findsOneWidget);
   });
 
   testWidgets('delete buttons appear only in edit mode', (tester) async {
@@ -108,9 +119,7 @@ void main() {
     expect(await storage.getAll(), isEmpty);
   });
 
-  testWidgets('tapping cell in edit mode opens rename dialog', (
-    tester,
-  ) async {
+  testWidgets('tapping cell in edit mode opens rename dialog', (tester) async {
     final storage = InMemoryStorageService();
     await storage.save(
       const StorageObject(id: '1', name: 'qrCode', data: 'abc'),
@@ -120,7 +129,7 @@ void main() {
     await tester.pumpAndSettle();
 
     // Tapping outside edit mode opens the barcode dialog, not rename.
-    await tester.tap(find.text('qrCode'));
+    await tester.tap(cellText('qrCode'));
     await tester.pumpAndSettle();
     expect(find.byKey(const Key('name_field')), findsNothing);
     expect(find.byKey(const Key('barcode_dialog')), findsOneWidget);
@@ -132,24 +141,18 @@ void main() {
     await tester.tap(find.byKey(const Key('edit_toggle_button')));
     await tester.pumpAndSettle();
 
-    await tester.tap(find.text('qrCode'));
+    await tester.tap(cellText('qrCode'));
     await tester.pumpAndSettle();
 
     expect(find.byKey(const Key('name_field')), findsOneWidget);
 
-    await tester.enterText(
-      find.byKey(const Key('name_field')),
-      'My QR code',
-    );
+    await tester.enterText(find.byKey(const Key('name_field')), 'My QR code');
     await tester.tap(find.byKey(const Key('save_button')));
     await tester.pumpAndSettle();
 
-    expect(find.text('My QR code'), findsOneWidget);
+    expect(cellText('My QR code'), findsOneWidget);
     expect(find.text('qrCode'), findsNothing);
-    expect(
-      (await storage.getAll()).single.name,
-      'My QR code',
-    );
+    expect((await storage.getAll()).single.name, 'My QR code');
   });
 
   testWidgets('rename dialog offers color schemes and saves selection', (
@@ -165,7 +168,7 @@ void main() {
 
     await tester.tap(find.byKey(const Key('edit_toggle_button')));
     await tester.pumpAndSettle();
-    await tester.tap(find.text('qrCode'));
+    await tester.tap(cellText('qrCode'));
     await tester.pumpAndSettle();
 
     expect(find.byKey(const Key('color_picker')), findsOneWidget);
@@ -217,7 +220,7 @@ void main() {
     await tester.pumpWidget(buildApp(storage: storage));
     await tester.pumpAndSettle();
 
-    await tester.tap(find.text('qrCode'));
+    await tester.tap(cellText('qrCode'));
     await tester.pumpAndSettle();
 
     expect(find.byKey(const Key('barcode_dialog')), findsOneWidget);
@@ -241,7 +244,7 @@ void main() {
     await tester.tap(find.byKey(const Key('edit_toggle_button')));
     await tester.pumpAndSettle();
 
-    await tester.tap(find.text('qrCode'));
+    await tester.tap(cellText('qrCode'));
     await tester.pumpAndSettle();
 
     expect(find.byKey(const Key('barcode_dialog')), findsNothing);

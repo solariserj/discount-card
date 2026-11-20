@@ -27,12 +27,8 @@ void main() {
     });
 
     test('save with same id overwrites', () async {
-      await service.save(
-        const StorageObject(id: '1', name: 'a', data: 'old'),
-      );
-      await service.save(
-        const StorageObject(id: '1', name: 'b', data: 'new'),
-      );
+      await service.save(const StorageObject(id: '1', name: 'a', data: 'old'));
+      await service.save(const StorageObject(id: '1', name: 'b', data: 'new'));
 
       final all = await service.getAll();
       expect(all, hasLength(1));
@@ -40,12 +36,8 @@ void main() {
     });
 
     test('delete removes by id', () async {
-      await service.save(
-        const StorageObject(id: '1', name: 'a', data: 'x'),
-      );
-      await service.save(
-        const StorageObject(id: '2', name: 'b', data: 'y'),
-      );
+      await service.save(const StorageObject(id: '1', name: 'a', data: 'x'));
+      await service.save(const StorageObject(id: '2', name: 'b', data: 'y'));
 
       await service.delete('1');
       final all = await service.getAll();
@@ -53,9 +45,7 @@ void main() {
     });
 
     test('clear removes everything', () async {
-      await service.save(
-        const StorageObject(id: '1', name: 'a', data: 'x'),
-      );
+      await service.save(const StorageObject(id: '1', name: 'a', data: 'x'));
       await service.clear();
       expect(await service.getAll(), isEmpty);
     });
@@ -75,9 +65,7 @@ void main() {
     });
 
     test('saveAll replaces collection preserving order', () async {
-      await service.save(
-        const StorageObject(id: '1', name: 'a', data: 'x'),
-      );
+      await service.save(const StorageObject(id: '1', name: 'a', data: 'x'));
       await service.saveAll(const [
         StorageObject(id: '2', name: 'b', data: 'y'),
         StorageObject(id: '3', name: 'c', data: 'z'),
@@ -108,12 +96,8 @@ void main() {
     });
 
     test('delete and clear work', () async {
-      await service.save(
-        const StorageObject(id: '1', name: 'a', data: 'x'),
-      );
-      await service.save(
-        const StorageObject(id: '2', name: 'b', data: 'y'),
-      );
+      await service.save(const StorageObject(id: '1', name: 'a', data: 'x'));
+      await service.save(const StorageObject(id: '2', name: 'b', data: 'y'));
 
       await service.delete('1');
       expect(await service.getAll(), hasLength(1));
