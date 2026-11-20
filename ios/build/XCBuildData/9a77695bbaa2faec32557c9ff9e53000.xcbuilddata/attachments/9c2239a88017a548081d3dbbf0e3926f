@@ -1,0 +1,4 @@
+module image_picker_ios {
+header "image_picker_ios-Swift.h"
+export *
+}

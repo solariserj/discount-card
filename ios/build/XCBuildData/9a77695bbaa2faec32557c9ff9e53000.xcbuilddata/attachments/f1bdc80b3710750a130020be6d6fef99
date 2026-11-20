@@ -1,0 +1,9 @@
+/Users/serj/work/Flutter/DevinExp/ios/Flutter/ephemeral/Packages/.packages/mobile_scanner-7.5.0/build/mobile_scanner.build/Debug-iphonesimulator/mobile_scanner.build/DerivedSources/resource_bundle_accessor.swift
+/Users/serj/.pub-cache/hosted/pub.dev/mobile_scanner-7.5.0/darwin/mobile_scanner/Sources/mobile_scanner/BarcodePayloadParser.swift
+/Users/serj/.pub-cache/hosted/pub.dev/mobile_scanner-7.5.0/darwin/mobile_scanner/Sources/mobile_scanner/BarcodeTypeDetector.swift
+/Users/serj/.pub-cache/hosted/pub.dev/mobile_scanner-7.5.0/darwin/mobile_scanner/Sources/mobile_scanner/DetectionSpeed.swift
+/Users/serj/.pub-cache/hosted/pub.dev/mobile_scanner-7.5.0/darwin/mobile_scanner/Sources/mobile_scanner/DeviceOrientationStreamHandler.swift
+/Users/serj/.pub-cache/hosted/pub.dev/mobile_scanner-7.5.0/darwin/mobile_scanner/Sources/mobile_scanner/MobileScannerCameraSelector.swift
+/Users/serj/.pub-cache/hosted/pub.dev/mobile_scanner-7.5.0/darwin/mobile_scanner/Sources/mobile_scanner/MobileScannerError.swift
+/Users/serj/.pub-cache/hosted/pub.dev/mobile_scanner-7.5.0/darwin/mobile_scanner/Sources/mobile_scanner/MobileScannerErrorCodes.swift
+/Users/serj/.pub-cache/hosted/pub.dev/mobile_scanner-7.5.0/darwin/mobile_scanner/Sources/mobile_scanner/MobileScannerPlugin.swift
