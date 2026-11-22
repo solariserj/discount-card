@@ -178,6 +178,20 @@ class _StorageObjectTile extends StatelessWidget {
   final VoidCallback onDelete;
   final void Function(String name, String? color) onRename;
 
+  /// Icon matching the scanned code type: QR-style glyphs for QR codes and
+  /// other 2D symbologies, a barcode glyph for 1D barcodes.
+  static IconData _iconFor(StorageObject object) {
+    final kind = (object.format.isNotEmpty ? object.format : object.name)
+        .toLowerCase();
+    if (kind.contains('qr')) return Icons.qr_code_2;
+    if (kind.contains('datamatrix') ||
+        kind.contains('pdf417') ||
+        kind.contains('aztec')) {
+      return Icons.qr_code;
+    }
+    return Icons.barcode_reader;
+  }
+
   Future<void> _showRenameDialog(BuildContext context) async {
     String? selectedColor;
     final newName = await showDialog<String>(
@@ -217,7 +231,7 @@ class _StorageObjectTile extends StatelessWidget {
                   index: index,
                   child: const Icon(Icons.drag_indicator),
                 )
-              : const Icon(Icons.qr_code),
+              : Icon(_iconFor(object)),
           title: Text(object.name),
           subtitle: Text(
             object.data,
