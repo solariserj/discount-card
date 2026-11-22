@@ -85,17 +85,6 @@ class _ScanPageState extends State<ScanPage> {
         title: const Text('Scan QR / Barcode'),
         actions: [
           IconButton(
-            key: const Key('library_button'),
-            icon: _analyzingImage
-                ? const SizedBox(
-                    width: 18,
-                    height: 18,
-                    child: CircularProgressIndicator(strokeWidth: 2),
-                  )
-                : const Icon(Icons.photo_library),
-            onPressed: _analyzingImage ? null : _pickImageFromLibrary,
-          ),
-          IconButton(
             key: const Key('torch_button'),
             icon: const Icon(Icons.flash_on),
             onPressed: vm.toggleTorch,
@@ -110,9 +99,35 @@ class _ScanPageState extends State<ScanPage> {
       body: Column(
         children: [
           Expanded(
-            child: MobileScanner(
-              controller: vm.controller,
-              onDetect: vm.handleDetection,
+            child: Stack(
+              children: [
+                MobileScanner(
+                  controller: vm.controller,
+                  onDetect: vm.handleDetection,
+                ),
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 12),
+                    child: FloatingActionButton.extended(
+                      key: const Key('library_button'),
+                      onPressed: _analyzingImage ? null : _pickImageFromLibrary,
+                      icon: _analyzingImage
+                          ? const SizedBox(
+                              width: 16,
+                              height: 16,
+                              child: CircularProgressIndicator(
+                                strokeWidth: 2,
+                                color: Colors.white,
+                              ),
+                            )
+                          : const Icon(Icons.photo_library),
+                      label: const Text('Photo from library'),
+                      shape: const StadiumBorder(),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
           Container(
